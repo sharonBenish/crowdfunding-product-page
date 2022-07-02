@@ -32,6 +32,25 @@
           </button>
         </div>
       </section>
+      <section id="stats">
+        <div class="stats">
+          <div class="stat">
+            <div class="num">${{sum.toLocaleString("en-US")}}</div>
+            <div>of $100,000 backed</div>
+          </div>
+          <div class="stat">
+            <div class="num">{{backers.toLocaleString("en-US")}}</div>
+            <div>total backers</div>
+          </div>
+          <div class="stat">
+            <div class="num">56</div>
+            <div>days left</div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" :style="{width:progress}"></div>
+        </div>
+      </section>
     </div>
   </main>
 </template>
@@ -39,12 +58,19 @@
 <script>
 export default {
   name: 'App',
-  components: {
-  },
   data(){
     return{
       menuOpen:false,
       bookmarked:false,
+      sum:89914,
+      backers:5007,
+      target:100000,
+    }
+  },
+  computed:{
+    progress(){
+      const result = (this.sum / this.target)*100;
+      return `${result}%`
     }
   }
 }
@@ -141,6 +167,7 @@ section{
   text-align: center;
   padding:2rem 1rem;
   border-radius: 0.6rem;
+  margin-bottom: 1.5rem;
 }
 
 #intro{
@@ -198,6 +225,43 @@ section{
   height:48px;
 }
 
+.stats{
+  font-size:13px;
+}
+
+.num{
+  font-weight: 700;
+  color:var(--black);
+  font-size: 1.5rem;
+}
+
+.stat > div:not(.num){
+  padding: 0.8rem 0;
+}
+
+.stat{
+  margin-bottom:1.3rem;
+}
+
+.stat:not(:last-of-type){
+  border-bottom: 0.1rem solid var(--gray);
+  
+}
+
+.progress-bar{
+  width:100%;
+  background-color: var(--gray);
+  height: 0.8rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress{
+  background-color: var(--mod-cyan);
+  width:50%;
+  height: 100%;
+}
+
 
 @media (min-width:1025px){
   header{
@@ -242,6 +306,26 @@ section{
   #bookmark > span{
     display: inline;
   }
+
+  #stats{
+    padding:2rem 3rem;
+  }
+
+  .stats{
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .stat{
+    padding-left:0;
+  }
+
+  .stat:not(:last-of-type){
+    border-bottom: none;
+    border-right: 0.15rem solid var(--gray);
+    width:33.33%;
+}
 }
 
 </style>
