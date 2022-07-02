@@ -1,4 +1,5 @@
 <template>
+  <div class="overlay" v-if="menuOpen"></div>
   <header>
     <nav>
       <div class="logo"><img src="./assets/logo.svg" alt=""></div>
@@ -166,6 +167,20 @@ nav{
   display:flex;
   justify-content: space-between;
   position: relative;
+  z-index: 50;
+}
+
+.overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.25);
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    z-index: 1;
 }
 
 .links{
