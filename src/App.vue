@@ -15,6 +15,25 @@
       </div>
     </nav>
   </header>
+  <main>
+    <div>
+      <section id="intro">
+        <div class="logo"><img src="./assets/logo-mastercraft.svg" alt=""></div>
+        <h2>Mastercraft Bamboo Monitor Riser</h2>
+        <p>A beautiful & handcrafted monitor stand to reduce neck and eye strain.</p>
+        <div class="buttons">
+          <button class="btn">Back this project</button>
+          <button class="btn" id="bookmark" @click="bookmarked = !bookmarked">
+            <div class="bookmark-icon">
+              <img v-if="!bookmarked" src="./assets/icon-bookmark.svg" alt="">
+              <img v-else src="./assets/icon-bookmarked.svg" alt="">
+            </div>
+            <span :class="bookmarked && 'bookmarked'">Bookmark<span v-if="bookmarked">ed</span></span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -25,6 +44,7 @@ export default {
   data(){
     return{
       menuOpen:false,
+      bookmarked:false,
     }
   }
 }
@@ -34,10 +54,11 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;700&display=swap');
 
 :root{
---mod-cyan: hsl(176, 50%, 47%);
---dark-cyan: hsl(176, 72%, 28%);
+--mod-cyan: #3cb4ac;
+--dark-cyan: #147b74;
 --black: hsl(0, 0%, 0%);
 --dark-gray: hsl(0, 0%, 48%);
+--gray:#FAFAFA;
 }
 
 *{
@@ -47,9 +68,28 @@ export default {
   font-family: 'Commissioner', sans-serif;
 }
 
+body{
+  background-color: var(--gray);
+  color:var(--dark-gray)
+}
+
 a{
   text-decoration: none;
   color:inherit;
+}
+
+.btn{
+  border:0;
+  background-color: var(--mod-cyan);
+  color:#fff;
+  padding:1rem 1.6rem;
+  border-radius: 1.5rem;
+  font-weight: 700;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background-color: var(--dark-cyan);
 }
 
 header{
@@ -73,6 +113,7 @@ nav{
   top:3rem;
   background-color: #fff;
   border-radius: 0.6rem;
+  z-index: 100;
 }
 
 .links > div{
@@ -87,11 +128,82 @@ nav{
   display:block;
 }
 
+main > div {
+  width:90%;
+  max-width: 500px;
+  margin:0 auto;
+  position: relative;
+  top:-3rem;
+}
+
+section{
+  background-color: #fff;
+  text-align: center;
+  padding:2rem 1rem;
+  border-radius: 0.6rem;
+}
+
+#intro{
+  position: relative;
+}
+
+#intro > h2{
+  color:var(--black);
+}
+
+#intro > p{
+  font-size: 14px;
+}
+
+#intro > *{
+  margin:1rem 0;
+  line-height: 1.8rem;
+}
+
+ #intro> .logo {
+  position:absolute;
+  left:50%;
+  top:0;
+  transform: translate(-50%, -50%);
+}
+
+.buttons {
+  margin-top: 2rem !important;
+  display: flex;
+  justify-content: space-between;
+}
+
+#bookmark{
+  background-color: var(--gray);
+  color:var(--dark-gray);
+  position: relative;
+  padding-left: 2rem;
+}
+
+#bookmark > span{
+  display: none;
+}
+
+.bookmarked{
+  color:var(--dark-cyan);
+}
+
+#bookmark > .bookmark-icon{
+  position: absolute;
+  left:-1.5rem;
+  top:0;
+}
+#bookmark > .bookmark-icon > img{
+  width:48px;
+  height:48px;
+}
+
+
 @media (min-width:1025px){
   header{
     background-image: url("./assets/image-hero-desktop.jpg");
-    padding:2.6rem 4rem;
-    height:350px;
+    padding:2.6rem 6rem;
+    height:320px;
   }
   .nav-links{
     display:flex;
@@ -115,6 +227,20 @@ nav{
   .links > div:not(:last-of-type){
     border-bottom: 0;
     margin-right: 1.2rem;
+  }
+
+  main >div{
+    width:50%;
+    max-width: 600px;
+  }
+
+  .buttons {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  #bookmark > span{
+    display: inline;
   }
 }
 
