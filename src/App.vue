@@ -51,28 +51,65 @@
           <div class="progress" :style="{width:progress}"></div>
         </div>
       </section>
+
+      <section id="about">
+        <h3>About this project</h3>
+        <p>
+          The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen 
+          to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve 
+          your posture and make you more comfortable while at work, helping you stay focused on the task at hand.
+        </p>
+        <p>
+          Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer 
+          to allow notepads, pens, and USB sticks to be stored under the stand.
+        </p>
+        <ProductCard :pledge="25" :remaining="101">
+          <template v-slot:title>Black Edition Stand</template>
+          <template v-slot:descr>
+            You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and you’ll be added to a special Backer member list.
+          </template>
+        </ProductCard>
+        <ProductCard :pledge="75" :remaining="64">
+          <template v-slot:title>Bamboo Stand</template>
+          <template v-slot:descr>
+            You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer member list. Shipping is included.
+          </template>
+        </ProductCard>
+        <ProductCard class="out-of-stock" :pledge="25" :remaining="0">
+          <template v-slot:title>Mahogany Special Edition</template>
+          <template v-slot:descr>
+            You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added to our Backer member list. Shipping is included.
+          </template>
+          <template v-slot:button>Out of Stock</template>
+        </ProductCard>
+      </section>
     </div>
   </main>
 </template>
 
 <script>
+import ProductCard from './components/ProductCard.vue';
 export default {
-  name: 'App',
-  data(){
-    return{
-      menuOpen:false,
-      bookmarked:false,
-      sum:89914,
-      backers:5007,
-      target:100000,
-    }
-  },
-  computed:{
-    progress(){
-      const result = (this.sum / this.target)*100;
-      return `${result}%`
-    }
-  }
+    name: "App",
+    components:{
+      ProductCard,
+    },
+    data() {
+        return {
+            menuOpen: false,
+            bookmarked: false,
+            sum: 89914,
+            backers: 5007,
+            target: 100000,
+        };
+    },
+    computed: {
+        progress() {
+            const result = (this.sum / this.target) * 100;
+            return `${result}%`;
+        }
+    },
+    components: { ProductCard }
 }
 </script>
 
@@ -96,7 +133,8 @@ export default {
 
 body{
   background-color: var(--gray);
-  color:var(--dark-gray)
+  color:var(--dark-gray);
+  font-size:14px;
 }
 
 a{
@@ -165,13 +203,14 @@ main > div {
 section{
   background-color: #fff;
   text-align: center;
-  padding:2rem 1rem;
+  padding:2rem 2rem;
   border-radius: 0.6rem;
   margin-bottom: 1.5rem;
 }
 
 #intro{
   position: relative;
+  padding:2rem 1rem;
 }
 
 #intro > h2{
@@ -262,6 +301,31 @@ section{
   height: 100%;
 }
 
+#about {
+  text-align: left;
+}
+
+#about h3{
+  color:var(--black);
+}
+
+#about> p{
+  padding-top:1.8rem;
+  font-size: 14px;
+  line-height:1.6rem;
+}
+
+#about > p:last-of-type{
+  margin-bottom: 1.8rem;
+}
+
+.out-of-stock{
+  opacity:0.5;
+}
+
+.out-of-stock button{
+  background-color: var(--dark-gray);
+}
 
 @media (min-width:1025px){
   header{
