@@ -109,7 +109,6 @@ export default {
             return `${result}%`;
         }
     },
-    components: { ProductCard }
 }
 </script>
 
