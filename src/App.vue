@@ -86,15 +86,25 @@
       </section>
     </div>
   </main>
+  <div class="modal ">
+    <div class="modal-content">
+      <h1>Hi hello</h1>
+      <Pledge />
+    </div>
+  </div>
 </template>
 
 <script>
 import ProductCard from './components/ProductCard.vue';
+import Pledge from './components/Pledge.vue'
+import Pledge1 from './components/Pledge.vue';
 export default {
     name: "App",
     components:{
-      ProductCard,
-    },
+    ProductCard,
+    Pledge,
+    Pledge1
+},
     data() {
         return {
             menuOpen: false,
@@ -170,7 +180,7 @@ nav{
   z-index: 50;
 }
 
-.overlay {
+.overlay, .modal {
     display: block;
     position: fixed;
     top: 0;
@@ -178,9 +188,21 @@ nav{
     height: 100vh;
     pointer-events: none;
     background-color: rgba(0, 0, 0, 0.25);
-    opacity: 1;
-    transition: opacity 0.5s ease;
     z-index: 1;
+}
+
+.modal{
+  pointer-events: all;
+}
+
+.modal-content{
+  background-color: #fff;
+  margin:0 auto;
+  margin-top:30%;
+  width:90%;
+  max-width: 500px;
+  border-radius: 0.6rem;
+  padding:1.3rem;
 }
 
 .links{
@@ -341,7 +363,16 @@ section{
   background-color: var(--dark-gray);
 }
 
+.modal{
+  display: fixed;
+  top:0;
+  left:0;
+}
+
 @media (min-width:1025px){
+  #app > .overlay{
+    display: none;
+  }
   header{
     background-image: url("./assets/image-hero-desktop.jpg");
     padding:2.6rem 6rem;
@@ -371,10 +402,14 @@ section{
     margin-right: 1.2rem;
   }
 
-  main >div{
+  main >div, .modal-content{
     width:50%;
     max-width: 600px;
   }
+
+   .modal-content{
+    margin-top:15%;
+   }
 
   .buttons {
     padding-left: 2rem;
@@ -404,6 +439,7 @@ section{
     border-right: 0.15rem solid var(--gray);
     width:33.33%;
 }
+
 }
 
 </style>
