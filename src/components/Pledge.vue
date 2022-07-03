@@ -2,8 +2,8 @@
     <div class="container">
         <div>
             <div>
-                <input type="radio" id="no-reward">
-                <label for id="no-reward">
+                <input type="radio" id="no-reward" @change="checked = !checked">
+                <label for="no-reward">
                     <div>
                         <h4>Bamboo Stand</h4>
                         <div class="pledge">Pleadge with $25 or more</div>
@@ -15,10 +15,12 @@
             </div>
             <div class="remaining"><span>101</span> left</div>
         </div>
-        <div class="action">
+        <div class="action" v-if="checked">
             <div class="prompt">Enter your pledge</div>
             <div class="pledge-input">
-                <input type="number">
+                <div>
+                    <input type="number">
+                </div>
                 <button class="btn">Continue</button>
             </div>
         </div>
@@ -27,7 +29,12 @@
 
 <script>
 export default{
-    name:'Pledge',
+    name:'PledgeCard',
+    data(){
+        return{
+            checked:false,
+        }
+    }
 }
 </script>
 
@@ -35,8 +42,12 @@ export default{
 .container{
     border:0.01rem solid var(--dark-gray);
     border-radius:0.6rem;
-    padding:1.3rem;
     margin-bottom:1.3rem;
+    padding: 1.3rem 0;
+}
+
+.container > div{
+    padding:0 1.3rem;
 }
 .container > div> div:first-of-type{
     display:flex;
@@ -71,13 +82,13 @@ h4{
 }
 
 .action{
-    border: 1px solid red;
+    border-top:0.01rem solid var(--dark-gray)
 }
 
 .prompt{
-    border: 1px solid blue;
     display: flex;
     justify-content: center;
+    padding:1rem 0;
 }
 
 .pledge-input{
@@ -88,21 +99,30 @@ h4{
 .pledge-input input{
     outline: none;
     border:1px solid var(--dark-gray);
-    padding:1rem 1.6rem;
-    border-radius: 1.5rem;
-    max-width: 100px;
+    padding:0.8rem 1.6rem;
+    border-radius: 1.4rem;
+    max-width: 90px;
+    color:var(--black);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.pledge-input >div {
     position: relative;
 }
 
-.pledge-input input::before{
-    content:'hi';
-    width:10px;
-    height:10px;
-    border:1px solid blue;
-    color:black;
+.pledge-input >div::before{
+    content:'$';
+    font-size: 1rem;
     position: absolute;
-    top:0;
+    top:50%;
     left:15px;
+    transform: translateY(-50%);
+}
+
+.action .btn{
+    padding:0.8rem 1.6rem;
+    border-radius: 1.4rem;
 }
 
 @media (min-width:1025px){
@@ -130,6 +150,21 @@ label > div {
 
 .pledge{
     margin-top:0;
+}
+
+.action{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top:1rem!important;
+}
+
+.prompt{
+    display:block;
+    padding: 0;
+}
+.pledge-input{
+    gap:20px;
 }
 }
 </style>

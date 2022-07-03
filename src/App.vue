@@ -23,7 +23,7 @@
         <h2>Mastercraft Bamboo Monitor Riser</h2>
         <p>A beautiful & handcrafted monitor stand to reduce neck and eye strain.</p>
         <div class="buttons">
-          <button class="btn">Back this project</button>
+          <button class="btn" @click="state='pledgeModal'">Back this project</button>
           <button class="btn" id="bookmark" @click="bookmarked = !bookmarked">
             <div class="bookmark-icon">
               <img v-if="!bookmarked" src="./assets/icon-bookmark.svg" alt="">
@@ -86,24 +86,31 @@
       </section>
     </div>
   </main>
-  <div class="modal ">
+  <div class="modal" v-if=" state == 'pledgeModal'">
     <div class="modal-content">
-      <h1>Hi hello</h1>
-      <Pledge />
+      <div>
+        <h3>Back this project</h3>
+        <div class="close-modal" @click="state = 'main'">
+          <svg width="14" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="#7a7a7a" fill-rule="evenodd"><path d="M2.404.782l11.314 11.314-2.122 2.122L.282 2.904z"/><path d="M.282 12.096L11.596.782l2.122 2.122L2.404 14.218z"/></g></svg>
+        </div>
+      </div>
+      
+      <PledgeCard />
+      <PledgeCard />
+      <PledgeCard />
+      <PledgeCard />
     </div>
   </div>
 </template>
 
 <script>
 import ProductCard from './components/ProductCard.vue';
-import Pledge from './components/Pledge.vue'
-import Pledge1 from './components/Pledge.vue';
+import PledgeCard from './components/Pledge.vue'
 export default {
     name: "App",
     components:{
     ProductCard,
-    Pledge,
-    Pledge1
+    PledgeCard,
 },
     data() {
         return {
@@ -112,6 +119,7 @@ export default {
             sum: 89914,
             backers: 5007,
             target: 100000,
+            state:"main",
         };
     },
     computed: {
@@ -130,7 +138,7 @@ export default {
 --mod-cyan: #3cb4ac;
 --dark-cyan: #147b74;
 --black: hsl(0, 0%, 0%);
---dark-gray: hsl(0, 0%, 48%);
+--dark-gray: #7a7a7a;
 --gray:#FAFAFA;
 }
 
@@ -180,12 +188,13 @@ nav{
   z-index: 50;
 }
 
+
 .overlay, .modal {
     display: block;
     position: fixed;
     top: 0;
     width: 100%;
-    height: 100vh;
+    bottom: 0;
     pointer-events: none;
     background-color: rgba(0, 0, 0, 0.25);
     z-index: 1;
@@ -198,11 +207,23 @@ nav{
 .modal-content{
   background-color: #fff;
   margin:0 auto;
-  margin-top:30%;
+  margin-top:20%;
   width:90%;
   max-width: 500px;
   border-radius: 0.6rem;
   padding:1.3rem;
+  height: 80vh;
+  overflow: scroll;
+}
+
+.modal-content >div{
+  display: flex;
+  justify-content: space-between;
+  margin:1rem 0 1.5rem 0;
+}
+
+.modal-content>div> h3{
+  color:var(--black)
 }
 
 .links{
@@ -404,11 +425,11 @@ section{
 
   main >div, .modal-content{
     width:50%;
-    max-width: 600px;
+    max-width: 800px;
   }
 
    .modal-content{
-    margin-top:15%;
+    margin-top:8%;
    }
 
   .buttons {
