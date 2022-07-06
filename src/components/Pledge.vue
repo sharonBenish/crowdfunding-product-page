@@ -20,9 +20,9 @@
             <div class="prompt">Enter your pledge</div>
             <div class="pledge-input">
                 <div>
-                    <input type="number">
+                    <input type="number" :value="product.pledge" :min="product.pledge">
                 </div>
-                <button class="btn">Continue</button>
+                <button class="btn" @click="$emit('pledge', $event.target.previousSibling.firstChild,)">Continue</button>
             </div>
         </div>
     </div>
@@ -33,6 +33,7 @@ export default{
     name:'PledgeCard',
     data(){
         return{
+            pledgeAmount:null,
         }
     },
     mounted(){
@@ -65,6 +66,11 @@ export default{
     border-radius:0.6rem;
     margin-bottom:1.3rem;
     padding: 1.3rem 0;
+}
+
+input:invalid {
+  border: solid red 3px;
+  color:red;
 }
 
 .container > div{

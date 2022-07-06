@@ -64,7 +64,7 @@
           Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer 
           to allow notepads, pens, and USB sticks to be stored under the stand.
         </p>
-        <ProductCard v-for="product in products.slice(1)" :key="product.title" :product="product" @openPledge="makePledge"/>
+        <ProductCard v-for="product in products.slice(1)" :key="product.title" :product="product" @openPledge="pledgeState"/>
       </section>
     </div>
   </main>
@@ -77,7 +77,18 @@
         </div>
       </div>
       <div> 
-         <PledgeCard :products="products" :option="option" v-model='option'/> 
+         <PledgeCard :products="products" :option="option" v-model='option' @pledge="makePledge"/> 
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" v-if=" state == 'thanks'">
+    <div class="modal-content thanks">
+      <div>
+        <img src="./assets/icon-check.svg" alt="">
+        <h3>Thanks for your support!</h3>
+        <p>Your pledge brings us one step closer to sharing Mastercraft Bamboo Monitor Riser worldwide. You will get an email once our campaign is completed.</p>
+        <button class="btn" @click="this.state='main'">Close</button>
       </div>
     </div>
   </div>
@@ -97,7 +108,7 @@ export default {
             option:'',
             menuOpen: false,
             bookmarked: false,
-            sum: 89914,
+            sum: 89900,
             backers: 5007,
             target: 100000,
             state:"main",
@@ -131,10 +142,19 @@ export default {
         };
     },
     methods:{
-      makePledge(option){
+      pledgeState(option){
         this.state = 'pledgeModal';
         this.option = option;
         console.log(option);
+      },
+      makePledge(input){
+        if (input.value < input.min) return;
+        this.sum += + input.value;
+        ++this.backers;
+        this.thanksState()
+      },
+      thanksState(){
+        this.state='thanks';
       }
     },
     computed: {
@@ -221,13 +241,15 @@ nav{
 
 .modal-content{
   background-color: #fff;
-  margin:0 auto;
-  margin-top:20%;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
   width:90%;
   max-width: 500px;
   border-radius: 0.6rem;
   padding:1.3rem;
-  height: 80vh;
+  max-height: 80vh;
   overflow: scroll;
 }
 
@@ -406,6 +428,15 @@ section{
   left:0;
 }
 
+.modal-content.thanks> div{
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap:0.8rem;
+}
+
 @media (min-width:1025px){
   #app > .overlay{
     display: none;
@@ -443,10 +474,6 @@ section{
     width:50%;
     max-width: 800px;
   }
-
-   .modal-content{
-    margin-top:9%;
-   }
 
   .buttons {
     padding-left: 2rem;
