@@ -54,7 +54,7 @@
       </section>
 
       <section id="about">
-        <h3>About this project</h3>
+        <h3 @click="makePledge">About this project</h3>
         <p>
           The Mastercraft Bamboo Monitor Riser is a sturdy and stylish platform that elevates your screen 
           to a more comfortable viewing height. Placing your monitor at eye level has the potential to improve 
@@ -64,25 +64,7 @@
           Featuring artisan craftsmanship, the simplicity of design creates extra desk space below your computer 
           to allow notepads, pens, and USB sticks to be stored under the stand.
         </p>
-        <ProductCard :pledge="25" :remaining="101">
-          <template v-slot:title>Black Edition Stand</template>
-          <template v-slot:descr>
-            You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and you’ll be added to a special Backer member list.
-          </template>
-        </ProductCard>
-        <ProductCard :pledge="75" :remaining="64">
-          <template v-slot:title>Bamboo Stand</template>
-          <template v-slot:descr>
-            You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer member list. Shipping is included.
-          </template>
-        </ProductCard>
-        <ProductCard class="out-of-stock" :pledge="25" :remaining="0">
-          <template v-slot:title>Mahogany Special Edition</template>
-          <template v-slot:descr>
-            You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added to our Backer member list. Shipping is included.
-          </template>
-          <template v-slot:button>Out of Stock</template>
-        </ProductCard>
+        <ProductCard v-for="product in products.slice(1)" :key="product.title" :product="product" @openPledge="makePledge"/>
       </section>
     </div>
   </main>
@@ -94,11 +76,9 @@
           <svg width="14" height="15" xmlns="http://www.w3.org/2000/svg"><g fill="#7a7a7a" fill-rule="evenodd"><path d="M2.404.782l11.314 11.314-2.122 2.122L.282 2.904z"/><path d="M.282 12.096L11.596.782l2.122 2.122L2.404 14.218z"/></g></svg>
         </div>
       </div>
-      
-      <PledgeCard />
-      <PledgeCard />
-      <PledgeCard />
-      <PledgeCard />
+      <div> 
+         <PledgeCard :products="products" :option="option" v-model='option'/> 
+      </div>
     </div>
   </div>
 </template>
@@ -109,18 +89,53 @@ import PledgeCard from './components/Pledge.vue'
 export default {
     name: "App",
     components:{
-    ProductCard,
-    PledgeCard,
-},
+      ProductCard,
+      PledgeCard,
+    },
     data() {
         return {
+            option:'',
             menuOpen: false,
             bookmarked: false,
             sum: 89914,
             backers: 5007,
             target: 100000,
             state:"main",
+            products:[
+              {
+                title:'Pledge with no reward',
+                descr: 'Choose to support us without a reward if you simply believe in our project. As a backer, you will be signed up to receive product updates via emails.',
+              },
+              {
+                title:'Bamboo Stand',
+                pledge:25,
+                remaining:101,
+                descr:" You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and you’ll be added to a special Backer member list.",
+                outOfStock:false
+              },
+              {
+                title:'Black Edition Stand',
+                pledge:75,
+                remaining:64,
+                descr:"You get a Black Special Edition computer stand and a personal thank you. You’ll be added to our Backer member list. Shipping is included.",
+                outOfStock:false
+              },
+              {
+                title:'Mahogany Special Edition',
+                pledge:200,
+                remaining:0,
+                descr:"You get two Special Edition Mahogany stands, a Backer T-Shirt, and a personal thank you. You’ll be added to our Backer member list. Shipping is included.",
+                outOfStock:true
+              }
+            ]
         };
+    },
+    methods:{
+      makePledge(option){
+        this.state = 'pledgeModal';
+        this.option = option;
+        console.log(option);
+      }
     },
     computed: {
         progress() {
@@ -216,7 +231,7 @@ nav{
   overflow: scroll;
 }
 
-.modal-content >div{
+.modal-content >div:first-of-type{
   display: flex;
   justify-content: space-between;
   margin:1rem 0 1.5rem 0;
@@ -378,6 +393,7 @@ section{
 
 .out-of-stock{
   opacity:0.5;
+  pointer-events: none;
 }
 
 .out-of-stock button{
@@ -429,7 +445,7 @@ section{
   }
 
    .modal-content{
-    margin-top:8%;
+    margin-top:9%;
    }
 
   .buttons {

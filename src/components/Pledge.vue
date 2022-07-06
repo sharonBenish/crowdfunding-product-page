@@ -1,21 +1,22 @@
 <template>
-    <div class="container">
+    <div class="container" v-for="product in products" :key="product.title" :class="product.outOfStock && 'out-of-stock'">
         <div>
             <div>
-                <input type="radio" id="no-reward" @change="checked = !checked">
-                <label for="no-reward">
+                <input type="radio" :id="product.title" name="products" :value="product.title" @change="$emit('update:modelValue',$event.target.value)" :checked="option==product.title" :disabled="product.outOfStock">
+                <pre>{{checked}}</pre>
+                <label :for="product.title">
                     <div>
-                        <h4>Bamboo Stand</h4>
-                        <div class="pledge">Pleadge with $25 or more</div>
+                        <h4>{{product.title}}</h4>
+                        <div class="pledge" v-if="product.pledge">Pleadge with ${{ product.pledge }} or more</div>
                     </div>
                 </label>
             </div>
             <div class="descr">
-                You get an ergonomic stand made of natural bamboo. You've helped us launch our promotional campaign, and you’ll be added to a special Backer member list.
+                {{product.descr}}
             </div>
-            <div class="remaining"><span>101</span> left</div>
+            <div class="remaining" v-if="product.remaining"><span>{{ product.remaining }}</span> left</div>
         </div>
-        <div class="action" v-if="checked">
+        <div class="action" v-if="option == product.title">
             <div class="prompt">Enter your pledge</div>
             <div class="pledge-input">
                 <div>
@@ -32,7 +33,27 @@ export default{
     name:'PledgeCard',
     data(){
         return{
-            checked:false,
+        }
+    },
+    mounted(){
+        console.log(this.option);
+    },
+    props:{
+        products:{
+            type: Array,
+            required:true,
+        },
+        option:{
+            type:String
+        }
+    },
+    methods:{
+        isChecked(radio){
+            if(this.option == radio){
+                return true
+            } else{
+                return false
+            }
         }
     }
 }
@@ -82,7 +103,7 @@ h4{
 }
 
 .action{
-    border-top:0.01rem solid var(--dark-gray)
+    border-top:0.01rem solid var(--dark-gray);
 }
 
 .prompt{
@@ -123,6 +144,14 @@ h4{
 .action .btn{
     padding:0.8rem 1.6rem;
     border-radius: 1.4rem;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }
 
 @media (min-width:1025px){

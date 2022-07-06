@@ -1,19 +1,15 @@
 <template>
-<div class="container">
+<div class="container" :class="product.outOfStock && 'out-of-stock'">
     <div>
-        <h4>
-            <slot name="title"></slot>
-        </h4>
-        <p class="pledge">Pledge ${{pledge}} or more</p>
+        <h4>{{product.title}}</h4>
+        <p class="pledge">Pledge ${{product.pledge}} or more</p>
     </div>
     
-    <p class="descr">
-        <slot name="descr"></slot>
-    </p>
+    <p class="descr">{{ product.descr }}</p>
 
     <div>
-        <div class="remaining"><span>{{remaining}}</span> left</div>
-        <button class="btn">
+        <div class="remaining"><span>{{product.remaining}}</span> left</div>
+        <button class="btn" :data-option="product.title" @click="$emit('openPledge', $event.target.dataset.option)">
             <slot name="button">Select Reward</slot>
         </button>
     </div>
@@ -23,7 +19,8 @@
 <script>
     export default{
         name:'ProductCard',
-        props:['pledge','remaining'],
+        props:['product'],
+        emits:['openPledge'],
     }
 </script>
 
